@@ -11,7 +11,7 @@ public class AdminController {
     public ModelAndView test(){
         ModelAndView view = new ModelAndView();
         view.setViewName("/a");
-        view.addObject("msg","zhang");
+        view.addObject("msg","zhan");
 
         return view;
     }
