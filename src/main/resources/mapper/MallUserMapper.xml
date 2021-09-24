@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.qstmall.dao.MallUserMapper">
+
+    <!--定义查询结果集合，查询到的是AdminUser的一个集合，并定义了数据库字段和实体类属性的对应关系-->
+    <resultMap id="BaseResultMap" type="com.qst.qstmall.entity.MallUser">
+        <id column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+        <result column="login_name" jdbcType="VARCHAR" property="loginName"/>
+        <result column="password_md5" jdbcType="VARCHAR" property="passwordMd5"/>
+        <result column="introduce_sign" jdbcType="VARCHAR" property="introduceSign"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted"/>
+        <result column="locked_flag" jdbcType="TINYINT" property="lockedFlag"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+
+    <!--定义查询表中的哪些列（为了实现复用）-->
+    <sql id="Base_Column_List">
+        user_id, nick_name, login_name, password_md5, introduce_sign, address, is_deleted,
+    locked_flag, create_time
+    </sql>
+<!--根据用户名查询用户-->
+    <select id="selectByLoginName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_qst_mall_user
+        where login_name = #{loginName} and is_deleted = 0
+    </select>
+
+    <!--插入一个用户（注册）-->
+    <insert id="insertSelective" parameterType="com.qst.qstmall.entity.MallUser">
+        insert into tb_qst_mall_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="nickName != null">
+                nick_name,
+            </if>
+            <if test="loginName != null">
+                login_name,
+            </if>
+            <if test="passwordMd5 != null">
+                password_md5,
+            </if>
+            <if test="introduceSign != null">
+                introduce_sign,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+            <if test="lockedFlag != null">
+                locked_flag,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="nickName != null">
+                #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginName != null">
+                #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="passwordMd5 != null">
+                #{passwordMd5,jdbcType=VARCHAR},
+            </if>
+            <if test="introduceSign != null">
+                #{introduceSign,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="lockedFlag != null">
+                #{lockedFlag,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+</mapper>

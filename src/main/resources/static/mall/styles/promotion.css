@@ -1,0 +1,173 @@
+#content {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+#content .title{
+    background: url("../image/header_bgV2.png") no-repeat top;
+    margin: 0 auto;
+    height: 90px;
+    width: 1226px;
+}
+#content .title h3{
+    background: url("../image/header_textV2.png") no-repeat;
+    margin: 0 auto;
+    height: 90px;
+    width: 656px;
+}
+
+#content #promotion {
+    width: 1226px;
+    position: relative;
+    flex-shrink: 0;
+    height: auto;
+    background-color: #f5f5f5;
+}
+
+#content #promotion > h2 {
+    height: 58px;
+    line-height: 58px;
+}
+
+#content #promotion ul {
+    margin-left: 15px;
+    margin-right: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+#content #promotion ul li {
+    width: 267px;
+    height: 390px;
+    background-color: #fff;
+    margin-bottom: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,1);
+}
+
+#content #promotion ul li:nth-child(1) .hot-image,
+#content #promotion ul li:nth-child(6) .hot-image {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+#content #promotion ul li:hover {
+    box-shadow: 0px 0px 30px #ccc;
+}
+
+#content #promotion ul li:hover .comment {
+    transform: translateY(0);
+}
+
+#content #promotion ul li a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+    text-align: center;
+    width: 100%;
+    height: 75%;
+    position: relative;
+    overflow: hidden;
+}
+
+#content #promotion ul li .price {
+     height: 25%;
+     border-top: 1px solid #ccc;
+ }
+#content #promotion ul li .price .itemPrice{
+     margin-top: 18px;
+}
+
+#content #promotion ul li .price .link {
+    width: 100px;
+    height: 34px;
+    float: right;
+    background-color: #1baeae;
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: 0px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    line-height:34px;
+    display: inline-block;
+    margin-right: 10px;
+    margin-top: 8px;
+    text-align: center;
+}
+
+#content #promotion ul li .price .promotionPrice {
+    margin-left: 10px;
+    color: red;
+    width: 100px;
+    font-size: 26px;
+}
+#content #promotion ul li .price .sellingPrice {
+    margin-left: 14px;
+    width: 60px;
+    font-size: 14px;
+    color: slategrey;
+    text-decoration: line-through;
+}
+
+#content #promotion ul li a .new {
+    background-color: #83c44e;
+}
+
+#content #promotion ul li a .discount {
+    background-color: #f00;
+}
+
+#content #promotion ul li a > p {
+    height: 25px;
+    line-height: 25px;
+    font-size: 16px;
+}
+
+#content #promotion ul li a .item_price {
+    color: #1baeae;
+}
+
+#content #promotion ul li a .counter {
+    height: 15px;
+    line-height: 15px;
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+
+}
+
+#content #promotion ul li a img {
+    width: 180px;
+    height: 180px;
+    margin: 10px 0 20px;
+}
+
+#content #promotion ul li a .comment {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(101%);
+    transition: transform 0.4s;
+    box-sizing: border-box;
+    height: 70px;
+    padding: 10px 0 0 30px;
+    background-color: #1baeae;
+    color: #fff;
+    text-align: left;
+}
+
+#content #promotion ul li a .comment p {
+    font-size: 12px;
+    margin-top: 5px;
+}
