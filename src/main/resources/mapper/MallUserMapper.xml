@@ -90,4 +90,12 @@
             </if>
         </trim>
     </insert>
+
+    <select id="selectByLoginNameAndPasswd" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_qst_mall_user
+        where login_name = #{loginName} and password_md5 = #{password} and is_deleted = 0
+    </select>
+
 </mapper>

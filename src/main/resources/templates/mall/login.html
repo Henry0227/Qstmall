@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>青软商城-登录</title>
-    <link rel="stylesheet" th:href="@{mall/css/common.css}">
-    <link rel="stylesheet" th:href="@{mall/styles/login.css}">
-    <link rel="stylesheet" th:href="@{mall/styles/header.css}">
-    <link rel="stylesheet" th:href="@{/admin/plugins/sweetalert/sweetalert.css}"/>
+    <link rel="stylesheet" href="mall/css/common.css">
+    <link rel="stylesheet" href="mall/styles/login.css">
+    <link rel="stylesheet" href="mall/styles/header.css">
+    <link rel="stylesheet" href="/admin/plugins/sweetalert/sweetalert.css"/>
 </head>
 <body>
 <div class="top center">
@@ -34,13 +34,13 @@
                                                                                     type="password"
                                                                                     name="password"
                                                                                     placeholder="请输入你的密码"/></div>
-                   <!-- <div class="login-info">
+                   <div class="login-info">
                         验证码:&nbsp;
                         <input class="login-info-input verify-code" type="text" name="verifyCode"
                                placeholder="请输入验证码" id="verifyCode"/>
-                        <img alt="单击图片刷新！" style="top: 14px;position: relative;" th:src="@{/common/mall/kaptcha}"
-                             onclick="this.src='/common/mall/kaptcha?d='+new Date()*1">
-                    </div>-->
+                        <img alt="单击图片刷新！" style="top: 14px;position: relative;" src="/common/kaptcha"
+                             onclick="this.src='/common/kaptcha?d='+new Date()*1">
+                    </div>
                 </div>
                 <div class="login_submit">
                     <input class="submit" type="submit" onclick="login()" value="立即登录">
@@ -51,9 +51,9 @@
 </div>
 </body>
 <!-- jQuery -->
-<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
-<script th:src="@{/admin/dist/js/public.js}"></script>
-<script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+<script src="/admin/plugins/jquery/jquery.js"></script>
+<script src="/admin/dist/js/public.js"></script>
+<script src="/admin/plugins/sweetalert/sweetalert.min.js"></script>
 <script type="text/javascript">
     function login() {
         var loginName = $("#loginName").val();
