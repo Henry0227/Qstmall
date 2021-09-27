@@ -31,7 +31,6 @@ public class QstMallUserServiceImpl implements QstMallUserService {
         String passwordMD5 = MD5Util.MD5Encode(password);
         registerUser.setPasswordMd5(passwordMD5);
 
-
         if (mallUserMapper.insertSelective(registerUser) > 0) {
             return ServiceResultEnum.SUCCESS.getResult();
         }
@@ -53,5 +52,4 @@ public class QstMallUserServiceImpl implements QstMallUserService {
         }
         return ServiceResultEnum.LOGIN_ERROR.getResult();
     }
-
 }

@@ -53,7 +53,12 @@ public class PersonalController {
     @ResponseBody
     public Result login(@RequestParam("loginName") String loginName,
                         @RequestParam("password") String password,
+                        String verifyCode,
                         HttpSession httpSession) {
+        String kaptchaCode = httpSession.getAttribute(Constants.MALL_VERIFY_CODE_KEY) + "";
+        if (StringUtils.isEmpty(kaptchaCode) || !verifyCode.equals(kaptchaCode)) {
+            return ResultGenerator.genFailResult(ServiceResultEnum.LOGIN_VERIFY_CODE_ERROR.getResult());
+        }
         //todo 清verifyCode
         String loginResult = qstMallUserService.login(loginName, MD5Util.MD5Encode(password), httpSession);
         //登录成功
