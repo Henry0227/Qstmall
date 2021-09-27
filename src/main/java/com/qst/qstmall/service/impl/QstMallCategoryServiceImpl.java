@@ -80,26 +80,34 @@ public class QstMallCategoryServiceImpl implements QstMallCategoryService {
         return goodsCategoryMapper.deleteBatch(ids) > 0;
     }
 
+    /*商城首页获取商品分类*/
     @Override
     public List<QstMallIndexCategoryVO> getCategoriesForIndex() {
         List<QstMallIndexCategoryVO> qstMallIndexCategoryVOS = new ArrayList<>();
-        //获取一级分类的固定数量的数据
+
+        //获取一级分类的数据，一级分类的parentid为0
         List<GoodsCategory> firstLevelCategories = goodsCategoryMapper.selectByLevelAndParentIdsAndNumber(Collections.singletonList(0L), QstMallCategoryLevelEnum.LEVEL_ONE.getLevel(), Constants.INDEX_CATEGORY_NUMBER);
-        if (!CollectionUtils.isEmpty(firstLevelCategories)) {
+
+        if (!CollectionUtils.isEmpty(firstLevelCategories)) {  //如果一级分类不为空
+            /*将一级分类的所有id提取出来放到一个集合中，是为了根据一级分类的id找到所有对应的二级分类*/
             List<Long> firstLevelCategoryIds = firstLevelCategories.stream().map(GoodsCategory::getCategoryId).collect(Collectors.toList());
-            //获取二级分类的数据
+            //获取所有二级分类的数据
             List<GoodsCategory> secondLevelCategories = goodsCategoryMapper.selectByLevelAndParentIdsAndNumber(firstLevelCategoryIds, QstMallCategoryLevelEnum.LEVEL_TWO.getLevel(), 0);
+
             if (!CollectionUtils.isEmpty(secondLevelCategories)) {
+                /*将二级分类的所有id提取出放到一个集合中*/
                 List<Long> secondLevelCategoryIds = secondLevelCategories.stream().map(GoodsCategory::getCategoryId).collect(Collectors.toList());
                 //获取三级分类的数据
                 List<GoodsCategory> thirdLevelCategories = goodsCategoryMapper.selectByLevelAndParentIdsAndNumber(secondLevelCategoryIds, QstMallCategoryLevelEnum.LEVEL_THREE.getLevel(), 0);
+
                 if (!CollectionUtils.isEmpty(thirdLevelCategories)) {
                     //根据 parentId 将 thirdLevelCategories 分组
                     Map<Long, List<GoodsCategory>> thirdLevelCategoryMap = thirdLevelCategories.stream().collect(groupingBy(GoodsCategory::getParentId));
                     List<SecondLevelCategoryVO> secondLevelCategoryVOS = new ArrayList<>();
-                    //处理二级分类
+                    //处理二级分类，将三级分类放置到二级分类下
                     for (GoodsCategory secondLevelCategory : secondLevelCategories) {
                         SecondLevelCategoryVO secondLevelCategoryVO = new SecondLevelCategoryVO();
+                        //将数据层实体类转换为业务层实体类
                         BeanUtil.copyProperties(secondLevelCategory, secondLevelCategoryVO);
                         //如果该二级分类下有数据则放入 secondLevelCategoryVOS 对象中
                         if (thirdLevelCategoryMap.containsKey(secondLevelCategory.getCategoryId())) {
@@ -110,7 +118,7 @@ public class QstMallCategoryServiceImpl implements QstMallCategoryService {
                         }
                         secondLevelCategoryVOS.add(secondLevelCategoryVO);//假如二级分类下没有三级分类，依然放入VO展示
                     }
-                    //处理一级分类
+                    //处理一级分类，将二级分类放置在一级分类下
                     if (!CollectionUtils.isEmpty(secondLevelCategoryVOS)) {
                         //根据 parentId 将 secondLevelCategories 分组
                         Map<Long, List<SecondLevelCategoryVO>> secondLevelCategoryVOMap = secondLevelCategoryVOS.stream().collect(groupingBy(SecondLevelCategoryVO::getParentId));

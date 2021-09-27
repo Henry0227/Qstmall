@@ -30,14 +30,23 @@ public class IndexController {
 
     @GetMapping({"/index", "/", "/index.html"})
     public String indexPage(HttpServletRequest request) {
+
+        /*获取所有分类信息*/
         List<QstMallIndexCategoryVO> categories = qstMallCategoryService.getCategoriesForIndex();
         if (CollectionUtils.isEmpty(categories)) {
             return "error/error_5xx";
         }
+
+        //获取轮播图信息
         List<QstMallIndexCarouselVO> carousels = qstMallCarouselService.getCarouselsForIndex(Constants.INDEX_CAROUSEL_NUMBER);
+        /*获取所有热销商品*/
         List<QstMallIndexConfigGoodsVO> hotGoodses = qstMallIndexConfigService.getConfigGoodsesForIndex(IndexConfigTypeEnum.INDEX_GOODS_HOT.getType(), Constants.INDEX_GOODS_HOT_NUMBER);
+        /*获取所有新品*/
         List<QstMallIndexConfigGoodsVO> newGoodses = qstMallIndexConfigService.getConfigGoodsesForIndex(IndexConfigTypeEnum.INDEX_GOODS_NEW.getType(), Constants.INDEX_GOODS_NEW_NUMBER);
+        /*获取所有推荐商品*/
         List<QstMallIndexConfigGoodsVO> recommendGoodses = qstMallIndexConfigService.getConfigGoodsesForIndex(IndexConfigTypeEnum.INDEX_GOODS_RECOMMOND.getType(), Constants.INDEX_GOODS_RECOMMOND_NUMBER);
+
+        /*讲获取到数据放到请求域中，返回给前端页面用于展示*/
         request.setAttribute("categories", categories);//分类数据
         request.setAttribute("carousels", carousels);//轮播图
         request.setAttribute("hotGoodses", hotGoodses);//热销商品

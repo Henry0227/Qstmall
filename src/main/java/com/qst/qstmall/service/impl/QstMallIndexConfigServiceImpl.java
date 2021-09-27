@@ -62,16 +62,24 @@ public class QstMallIndexConfigServiceImpl implements QstMallIndexConfigService 
         return null;
     }
 
+    /*任务4：获取推荐商品
+    * configType：3：热销商品   4：新品   5：推荐商品*/
     @Override
     public List<QstMallIndexConfigGoodsVO> getConfigGoodsesForIndex(int configType, int number) {
+        /*存放推荐商品的VO实体类集合*/
         List<QstMallIndexConfigGoodsVO> qstMallIndexConfigGoodsVOS = new ArrayList<>(number);
+
+        /*调用dao层获取推荐商品结合（PO类集合）*/
         List<IndexConfig> indexConfigs = indexConfigMapper.findIndexConfigsByTypeAndNum(configType, number);
         if (!CollectionUtils.isEmpty(indexConfigs)) {
             //取出所有的goodsId
             List<Long> goodsIds = indexConfigs.stream().map(IndexConfig::getGoodsId).collect(Collectors.toList());
+            /*根据商品id，调用dao层获取推荐商品的详细信息，推荐商品和商品详细信息在两张不同的表中*/
             List<QstMallGoods> qstMallGoods = goodsMapper.selectByPrimaryKeys(goodsIds);
+
+            /*将PO类集合转换为VO类集合*/
             qstMallIndexConfigGoodsVOS = BeanUtil.copyList(qstMallGoods, QstMallIndexConfigGoodsVO.class);
-            // 字符串过长导致文字超出的问题
+            // 字符串过长导致文字超出的问题，商品名字长度不能大于30，商品介绍信息长度不能大于22
             for (QstMallIndexConfigGoodsVO qstMallIndexConfigGoodsVO : qstMallIndexConfigGoodsVOS) {
                 String goodsName = qstMallIndexConfigGoodsVO.getGoodsName();
                 String goodsIntro = qstMallIndexConfigGoodsVO.getGoodsIntro();

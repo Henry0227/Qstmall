@@ -71,10 +71,16 @@ public class QstMallCarouselServiceImpl implements QstMallCarouselService {
         return carouselMapper.deleteBatch(ids) > 0;
     }
 
+    /*任务4：获取轮播信息*/
     @Override
     public List<QstMallIndexCarouselVO> getCarouselsForIndex(int number) {
+        /*存放轮播图信息的VO实体类集合*/
         List<QstMallIndexCarouselVO> qstMallIndexCarouselVOS = new ArrayList<>(number);
+
+        /*调用dao层获取轮播图集合（PO实体类集合）*/
         List<Carousel> carousels = carouselMapper.findCarouselsByNum(number);
+
+        /*将PO实体类集合转换为VO实体类集合*/
         if (!CollectionUtils.isEmpty(carousels)) {
             qstMallIndexCarouselVOS = BeanUtil.copyList(carousels, QstMallIndexCarouselVO.class);
         }
