@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="mall/header::head-fragment('青软商城-商品详情','detail')">
+</head>
+<body>
+<header th:replace="mall/header::header-fragment"></header>
+
+<div id="detail">
+    <!-- nav -->
+    <nav th:replace="mall/header::nav-fragment"></nav>
+
+    <div class="dc">
+        <div class="content w">
+            <div class="title fl">商品详情</div>
+            <nav class="fr">
+                <li><a href="##">概述</a></li>
+                <li>|</li>
+                <li><a href="##">详情</a></li>
+                <li>|</li>
+                <li><a href="##">用户评价</a></li>
+                <div class="clear"></div>
+            </nav>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <div class="intro mt20 w clearfix">
+        <div class="left fl" style="position: relative;">
+            <div class="swiper-container fl">
+                <div class="swiper-wrapper">
+                    <!-- 配置了轮播图则显示后台配置的轮播图 -->
+                    <th:block th:unless="${#lists.isEmpty(goodsDetail.goodsCarouselList)}">
+                        <th:block th:each="carousel : ${goodsDetail.goodsCarouselList}">
+                            <div class="swiper-slide">
+                                <img th:src="@{${carousel}}" alt="">
+                            </div>
+                        </th:block>
+                    </th:block>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+               <!-- <img th:src="@{${goodsDetail.goodsCoverImg}}">-->
+            </div>
+        </div>
+        <div class="right fr">
+            <input type="hidden" id="endTime" th:value="${goodsDetail.endTime}">
+           <!--还未开始-->
+            <th:block th:if="${goodsDetail.promotionStatus==1}">
+                <div class="promotion_time ml20 ">
+                    <i class="sprite"></i>
+                    <strong> 青软秒杀</strong>
+                    <label class="control-label start">预计
+                            <span class="startTime" th:text="${#dates.format(goodsDetail.startTime,'MM-dd HH:mm')}"></span>
+                            开始
+                    </label>
+                </div>
+            </th:block>
+            <!--正在进行-->
+            <th:block th:if="${goodsDetail.promotionStatus==2}">
+                <div class="promotion_time ml20">
+                    <i class="sprite"></i>
+                    <strong> 青软秒杀</strong>
+                    <label class="control-label end">
+                        倒计时
+                        <span id="countdown"></span>
+                    </label>
+                </div>
+            </th:block>
+            <div class="h3 ml20 mt20" th:text="${goodsDetail.goodsName}">QSTMall</div>
+            <div class="sub_title mr40 ml20 mt10" th:text="${goodsDetail.goodsIntro}">QSTMall</div>
+            <div class="item_price mr40 mt10">
+                <th:block th:text="'售价：'+${goodsDetail.sellingPrice}+'.00 元'"></th:block>
+                <th:block th:if="${goodsDetail.promotionStatus==2}">
+                    <del>
+                        <th:block th:text="${goodsDetail.originalPrice}+'.00 元'"></th:block>
+                    </del>
+                </th:block>
+            </div>
+            <th:block th:if="${goodsDetail.goodsSellStatus!=0}">
+                <div class="tip">
+                    <h2>该商品已下架</h2>
+                </div>
+            </th:block>
+            <th:block th:unless="${goodsDetail.goodsSellStatus!=0}">
+                <div class="order">
+                    <input class="addBtn min" id="btn-reduce" type="button" value="-" />
+                    <input class="item-number" id="buy-num" type="text" value="1">
+                    <input class="addBtn add" id="btn-add" type="button" value="+" />
+                    <input class="car" type="button" th:onclick="'saveAndGoCart('+${goodsDetail.goodsId}+')'" value="立即选购"/>
+                    <input class="car" type="button" th:onclick="'saveToCart('+${goodsDetail.goodsId}+')'" value="加入购物车"/>
+                </div>
+            </th:block>
+
+            <div class="tb-extra ml20" id="J_tbExtra">
+                <dl>
+                    <dt>承诺</dt>
+                    <dd><a class="J_Cont" title="满足7天无理由退换货申请的前提下，包邮商品需要买家承担退货邮费，非包邮商品需要买家承担发货和退货邮费。" href="#"
+                           target="_blank"><img th:src="@{/mall/image/7d.jpg}">7天无理由</a></dd>
+                </dl>
+                <dl>
+                    <dt>支付</dt>
+                    <dd><a href="##" target="_blank"><img th:src="@{/mall/image/hua.png}">蚂蚁花呗</a><a href="##"
+                                                                                                     target="_blank"><img
+                            th:src="@{/mall/image/card.png}">信用卡支付</a><a href="##" target="_blank"><img
+                            th:src="@{/mall/image/ji.png}">集分宝</a></dd>
+                </dl>
+                <dl>
+                    <dt>支持</dt>
+                    <dd>折旧变现，买新更省钱。<a style="float:none;text-decoration: underline;" href="##">详情</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="tab-main">
+        <div class="tab">
+            <ul>
+                <li class="current">商品介绍</li>
+                <li>商品评价</li>
+                <li>售后保障</li>
+            </ul>
+        </div>
+    </div>
+    <!-- 这里使用的是 th:utext 标签，用 th:text 不会解析 html，用 th:utext 会解析 html -->
+    <div class="goods mt20 w clearfix" th:utext="${goodsDetail.goodsDetailContent}"></div>
+</div>
+<div th:replace="mall/footer::footer-fragment"></div>
+</body>
+
+<!-- jQuery -->
+<script th:src="@{/admin/plugins/jquery/jquery.js}" type="text/javascript"></script>\
+<script th:src="@{/mall/js/swiper.min.js}" type="text/javascript"></script>
+<script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+<script th:src="@{/mall/js/detail.js}" type="text/javascript"></script>
+<script th:src="@{/mall/js/search.js}" type="text/javascript"></script>
+<script type="text/javascript">
+    function reloadDom() {
+        var endTime =dateToGMT($("#endTime").val()).getTime();
+        var now=new Date().getTime();
+        var delta=endTime-now;
+        if(delta<=0){
+            //活动结束
+            window.location.reload();
+        }
+        //相差的总秒数
+        var totalSeconds = parseInt((endTime - now) / 1000);
+        //小时数
+        var hours = Math.floor(totalSeconds / (60 * 60));
+        var modulo = totalSeconds % (60 * 60);
+        //分钟
+        var minutes = Math.floor(modulo / 60);
+        //秒
+        var seconds = modulo % 60;
+        $("#countdown").html(hours + "小时" + minutes + "分钟" + seconds + "秒");
+    }
+
+    $(function () {
+        if ([[${goodsDetail.promotionStatus}]]==2){
+            setInterval(reloadDom,1000);
+        }
+    })
+    function dateToGMT(strDate){
+        var dateStr=strDate.split(" ");
+        var strGMT = dateStr[0]+" "+dateStr[1]+" "+dateStr[2]+" "+dateStr[5]+" "+dateStr[3]+" GMT+0800";
+        var date = new Date(Date.parse(strGMT));
+        return date;
+    }
+
+
+    /**
+     * 添加到购物车
+     */
+    function saveToCart(id) {
+        var goodsCount = $('#buy-num').val();
+        var data = {
+            "goodsId": id,
+            "goodsCount": goodsCount
+        };
+        $.ajax({
+            type: 'POST',
+            url: '/shop-cart',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (result) {
+                if (result.resultCode == 200) {
+                    swal({
+                        title: "添加成功",
+                        icon: "success",
+                        buttons: {
+                            cancel: "留在当前页",
+                            confirm: "去购物车结算"
+                        },
+                    }).then((flag) => {
+                            if(flag){
+                                window.location.href = '/shop-cart';
+                            }
+                        }
+                    );
+                } else {
+                    swal(result.message, {
+                        icon: "error",
+                    });
+                }
+            },
+            complete:function (xhr,status) {
+                //拦截器拦截没有权限跳转
+                var REDIRECT=xhr.getResponseHeader("REDIRECT");
+                if(REDIRECT=="REDIRECT"){
+                    swal({
+                        title: "请先登录",
+                        icon: "error",
+                        buttons: {
+                            cancel: "留在当前页",
+                            confirm: "去登录"
+                        },
+                        dangerMode: false,
+                    }).then((flag) => {
+                            if (flag) {
+                                window.location.href = xhr.getResponseHeader("CONTENTPATH");
+                            }
+                        }
+                    );
+                }
+            },
+            error: function () {
+                swal("操作失败", {
+                    icon: "error",
+                });
+            }
+        });
+    }
+
+    /**
+     * 立即选购
+     * 添加到购物车并跳转至购物车页面
+     */
+    function saveAndGoCart(id) {
+        var goodsCount = $('#buy-num').val();
+        var data = {
+            "goodsId": id,
+            "goodsCount": goodsCount
+        };
+        $.ajax({
+            type: 'POST',
+            url: '/shop-cart',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (result) {
+                if (result.resultCode == 200) {
+                    swal({
+                        title: "已将商品加入购物车",
+                        icon: "success",
+                        buttons: {
+                            cancel: "留在当前页",
+                            confirm: "去购物车结算"
+                        },
+                        dangerMode: false,
+                    }).then((flag) => {
+                            if (flag) {
+                                window.location.href = '/shop-cart';
+                            }
+                        }
+                    );
+                } else {
+                    swal(result.message, {
+                        icon: "error",
+                    });
+                }
+            },
+            complete:function (xhr,status) {
+                //拦截器拦截没有权限跳转
+                var REDIRECT=xhr.getResponseHeader("REDIRECT");
+                if(REDIRECT=="REDIRECT"){
+                    swal({
+                        title: "请先登录",
+                        icon: "error",
+                        buttons: {
+                            cancel: "留在当前页",
+                            confirm: "去登录"
+                        },
+                        dangerMode: false,
+                    }).then((flag) => {
+                            if (flag) {
+                                window.location.href = xhr.getResponseHeader("CONTENTPATH");
+                            }
+                        }
+                    );
+                }
+            },
+            error: function () {
+                swal("操作失败", {
+                    icon: "error",
+                });
+            }
+        });
+    }
+
+
+</script>
+</html>

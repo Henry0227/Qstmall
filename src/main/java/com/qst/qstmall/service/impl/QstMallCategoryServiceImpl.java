@@ -80,7 +80,7 @@ public class QstMallCategoryServiceImpl implements QstMallCategoryService {
         return goodsCategoryMapper.deleteBatch(ids) > 0;
     }
 
-    /*商城首页获取商品分类*/
+    /*任務4：商城首页获取商品分类*/
     @Override
     public List<QstMallIndexCategoryVO> getCategoriesForIndex() {
         List<QstMallIndexCategoryVO> qstMallIndexCategoryVOS = new ArrayList<>();
@@ -143,6 +143,7 @@ public class QstMallCategoryServiceImpl implements QstMallCategoryService {
         }
     }
 
+    /*任務5：根据三级类别id获取SearchPageCategoryVO对象，对象中包含该三级类别对应二级类别下的所有三级类别等信息*/
     @Override
     public SearchPageCategoryVO getCategoriesForSearch(Long categoryId) {
         SearchPageCategoryVO searchPageCategoryVO = new SearchPageCategoryVO();
