@@ -37,7 +37,7 @@ public class GoodsController {
             params.put("page", 1);
         }
         //每页十条
-        params.put("limit", Constants.GOODS_SEARCH_PAGE_LIMIT);
+        params.put("limit", 10);
         //如何類型id不為空，封装分类数据
         if (params.containsKey("goodsCategoryId") && !StringUtils.isEmpty(params.get("goodsCategoryId")+ "")) {
             Long categoryId = Long.valueOf(params.get("goodsCategoryId") + "");
@@ -60,6 +60,7 @@ public class GoodsController {
         params.put("keyword", keyword);
         //封装商品数据
         PageQueryUtil pageUtil = new PageQueryUtil(params);
+
         request.setAttribute("pageResult", qstMallGoodsService.searchQstMallGoods(pageUtil));
         return "mall/search";
     }

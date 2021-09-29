@@ -203,26 +203,6 @@
                     });
                 }
             },
-            complete:function (xhr,status) {
-                //拦截器拦截没有权限跳转
-                var REDIRECT=xhr.getResponseHeader("REDIRECT");
-                if(REDIRECT=="REDIRECT"){
-                    swal({
-                        title: "请先登录",
-                        icon: "error",
-                        buttons: {
-                            cancel: "留在当前页",
-                            confirm: "去登录"
-                        },
-                        dangerMode: false,
-                    }).then((flag) => {
-                            if (flag) {
-                                window.location.href = xhr.getResponseHeader("CONTENTPATH");
-                            }
-                        }
-                    );
-                }
-            },
             error: function () {
                 swal("操作失败", {
                     icon: "error",
@@ -268,26 +248,6 @@
                     });
                 }
             },
-            complete:function (xhr,status) {
-                //拦截器拦截没有权限跳转
-                var REDIRECT=xhr.getResponseHeader("REDIRECT");
-                if(REDIRECT=="REDIRECT"){
-                    swal({
-                        title: "请先登录",
-                        icon: "error",
-                        buttons: {
-                            cancel: "留在当前页",
-                            confirm: "去登录"
-                        },
-                        dangerMode: false,
-                    }).then((flag) => {
-                            if (flag) {
-                                window.location.href = xhr.getResponseHeader("CONTENTPATH");
-                            }
-                        }
-                    );
-                }
-            },
             error: function () {
                 swal("操作失败", {
                     icon: "error",
@@ -295,7 +255,5 @@
             }
         });
     }
-
-
 </script>
 </html>
