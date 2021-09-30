@@ -52,4 +52,22 @@ public class QstMallUserServiceImpl implements QstMallUserService {
         }
         return ServiceResultEnum.LOGIN_ERROR.getResult();
     }
+
+    @Override
+    public QstMallUserVO updateUserInfo(MallUser mallUser, HttpSession httpSession) {
+        MallUser user = mallUserMapper.selectByPrimaryKey(mallUser.getUserId());
+        if (user != null) {
+            user.setNickName(mallUser.getNickName());
+            user.setAddress(mallUser.getAddress());
+            user.setIntroduceSign(mallUser.getIntroduceSign());
+            if (mallUserMapper.updateByPrimaryKeySelective(user) > 0) {
+                QstMallUserVO qstMallUserVO = new QstMallUserVO();
+                user = mallUserMapper.selectByPrimaryKey(mallUser.getUserId());
+                BeanUtil.copyProperties(user, qstMallUserVO);
+                httpSession.setAttribute(Constants.MALL_USER_SESSION_KEY, qstMallUserVO);
+                return qstMallUserVO;
+            }
+        }
+        return null;
+    }
 }

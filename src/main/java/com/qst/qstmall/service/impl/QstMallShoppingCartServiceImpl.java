@@ -113,6 +113,7 @@ public class QstMallShoppingCartServiceImpl implements QstMallShoppingCartServic
         return conventFromModel(qstMallShoppingCartItems);
     }
 
+    /*任务7：根据商品id集合返回商品集合*/
     @Override
     public List<QstMallShoppingCartItemVO> getMySettleShoppingCartItems(List<Long> cartItemIds) {
         List<QstMallShoppingCartItem> qstMallShoppingCartItems = qstMallShoppingCartItemMapper.selectByPrimaryKeys(cartItemIds, Constants.SHOPPING_CART_ITEM_TOTAL_NUMBER);

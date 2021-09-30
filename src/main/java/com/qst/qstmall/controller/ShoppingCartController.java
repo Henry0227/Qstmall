@@ -97,16 +97,19 @@ public class ShoppingCartController {
         return ResultGenerator.genFailResult(ServiceResultEnum.OPERATE_ERROR.getResult());
     }
 
-    /*处理结算请求*/
+    /*任务7：处理购物车页面（cart.html）结算请求
+    * itemIds:页面传递的用户要结算的所有商品id拼接成的字符串*/
     @GetMapping("/shop-cart/settle")
     public String settlePage(@RequestParam("cartItemIds")String itemIds,  HttpServletRequest request) {
-        int itemsTotal = 0;
-        int priceTotal = 0;
+        int itemsTotal = 0;   //商品总个数
+        int priceTotal = 0;   //商品总价格
         if (StringUtils.isEmpty(itemIds)) {
             //无数据则不跳转至结算页
             return "redirect:/shop-cart";
         }
+        /*将包含所有商品id的字符串转换为list集合*/
         List<Long> cartItemIds= Arrays.asList(itemIds.split(",")).stream().map(s -> Long.parseLong(s.trim())).collect(Collectors.toList());
+        //根据商品id集合返回商品集合
         List<QstMallShoppingCartItemVO> mySettleShoppingCartItems = qstMallShoppingCartService.getMySettleShoppingCartItems(cartItemIds);
         if (!CollectionUtils.isEmpty(mySettleShoppingCartItems)) {
             //订单项总数
@@ -116,10 +119,10 @@ public class ShoppingCartController {
             }
             //总价
             for (QstMallShoppingCartItemVO qstMallShoppingCartItemVO : mySettleShoppingCartItems) {
-
-                if(qstMallShoppingCartItemVO.getPromotionStatus()==null){
+                if(qstMallShoppingCartItemVO.getPromotionStatus()==null){  //如果没有活动按照原价计算总价
                     priceTotal += qstMallShoppingCartItemVO.getGoodsCount() * qstMallShoppingCartItemVO.getOriginalPrice();
                 }else if(qstMallShoppingCartItemVO.getPromotionStatus()==Constants.PROMOTION_STATUS_STARTED){
+                    /*如果有活动，按照销售价计算总价*/
                     priceTotal += qstMallShoppingCartItemVO.getGoodsCount() * qstMallShoppingCartItemVO.getSellingPrice();
                 }
             }
@@ -129,9 +132,10 @@ public class ShoppingCartController {
         }else{
             return "redirect:/shop-cart";
         }
-        request.setAttribute("itemsTotal",itemsTotal);
-        request.setAttribute("priceTotal",priceTotal);
+        request.setAttribute("itemsTotal",itemsTotal);  //商品总数放到请求域返回前端页面
+        request.setAttribute("priceTotal",priceTotal);  //商品总价格放到请求域返回前端页面
+        //要结算的所有商品放到请求域返回前端页面
         request.setAttribute("mySettleShoppingCartItems", mySettleShoppingCartItems);
-        return "mall/order-settle";
+        return "mall/order-settle";   //转发到订单确认页
     }
 }
