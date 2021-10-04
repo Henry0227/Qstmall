@@ -47,12 +47,10 @@ public class UploadController {
             file.transferTo(destFile);
             Result resultSuccess = ResultGenerator.genSuccessResult();
             resultSuccess.setData(QstMallUtils.getHost(new URI(httpServletRequest.getRequestURL() + "")) + "/upload/" + newFileName);
-            System.out.println(resultSuccess.getData());
             return resultSuccess;
         } catch (IOException e) {
             e.printStackTrace();
             return ResultGenerator.genFailResult("文件上传失败");
         }
     }
-
 }
