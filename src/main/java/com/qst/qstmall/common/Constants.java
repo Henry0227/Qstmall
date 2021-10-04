@@ -4,7 +4,7 @@ package com.qst.qstmall.common;
  * @apiNote 常量配置
  */
 public class Constants {
-    public final static String FILE_UPLOAD_DIC = "D:\\WXD\\upload\\";//上传文件的默认url前缀，根据部署设置自行修改
+    public final static String FILE_UPLOAD_DIC = "E:\\ideaProject\\JavaWeb-Demo\\qstmall\\target\\classes\\static\\upload\\";//上传文件的默认url前缀，根据部署设置自行修改
     public final static int INDEX_CAROUSEL_NUMBER = 5;//首页轮播图数量(可根据自身需求修改)
     public final static int INDEX_CATEGORY_NUMBER = 10;//首页一级分类的最大数量
     public final static int SEARCH_CATEGORY_NUMBER = 8;//搜索页一级分类的最大数量
