@@ -1,0 +1,6 @@
+1、resources/templates/admin目录下新建分类管理的xml文件
+qst_mall_category.html
+2、在controller中新建类QstMallGoodsCategoryController.java，处理分类管理相关请求
+
+
+思考与改进：如何限定后台的只能由登录后的管理员才能访问（目前没有登录也可以访问后台）

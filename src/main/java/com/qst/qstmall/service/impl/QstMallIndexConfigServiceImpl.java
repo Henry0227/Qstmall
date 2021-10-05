@@ -38,6 +38,7 @@ public class QstMallIndexConfigServiceImpl implements QstMallIndexConfigService 
     @Override
     public String saveIndexConfig(IndexConfig indexConfig) {
         //todo 判断是否存在该商品
+
         if (indexConfigMapper.insertSelective(indexConfig) > 0) {
             return ServiceResultEnum.SUCCESS.getResult();
         }
