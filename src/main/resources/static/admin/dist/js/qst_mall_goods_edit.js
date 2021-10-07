@@ -82,12 +82,6 @@ $('#confirmButton').click(function () {
         });
         return;
     }
-    if (isNull(sellingPrice) || sellingPrice < 1) {
-        swal("请输入商品售卖价", {
-            icon: "error",
-        });
-        return;
-    }
     if (isNull(stockNum) || sellingPrice < 0) {
         swal("请输入商品库存数", {
             icon: "error",
@@ -115,7 +109,6 @@ $('#saveButton').click(function () {
     var goodsName = $('#goodsName').val();
     var tag = $('#tag').val();
     var originalPrice = $('#originalPrice').val();
-    var sellingPrice = $('#sellingPrice').val();
     var goodsIntro = $('#goodsIntro').val();
     var stockNum = $('#stockNum').val();
     var goodsSellStatus = $("input[name='goodsSellStatus']:checked").val();
