@@ -8,10 +8,13 @@ import com.qst.qstmall.entity.MallUser;
 import com.qst.qstmall.service.QstMallUserService;
 import com.qst.qstmall.utils.BeanUtil;
 import com.qst.qstmall.utils.MD5Util;
+import com.qst.qstmall.utils.PageQueryUtil;
+import com.qst.qstmall.utils.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Service
 public class QstMallUserServiceImpl implements QstMallUserService {
@@ -69,5 +72,21 @@ public class QstMallUserServiceImpl implements QstMallUserService {
             }
         }
         return null;
+    }
+
+    @Override
+    public PageResult getQstMallUsersPage(PageQueryUtil pageUtil) {
+        List<MallUser> mallUsers = mallUserMapper.findMallUserList(pageUtil);
+        int total = mallUserMapper.getTotalMallUsers(pageUtil);
+        PageResult pageResult = new PageResult(mallUsers, total, pageUtil.getLimit(), pageUtil.getPage());
+        return pageResult;
+    }
+
+    @Override
+    public Boolean lockUsers(Integer[] ids, int lockStatus) {
+        if (ids.length < 1) {
+            return false;
+        }
+        return mallUserMapper.lockUserBatch(ids, lockStatus) > 0;
     }
 }

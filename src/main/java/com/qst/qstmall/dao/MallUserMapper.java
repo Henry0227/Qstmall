@@ -1,8 +1,11 @@
 package com.qst.qstmall.dao;
 
 import com.qst.qstmall.entity.MallUser;
+import com.qst.qstmall.utils.PageQueryUtil;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface MallUserMapper {
@@ -19,4 +22,10 @@ public interface MallUserMapper {
     int updateByPrimaryKeySelective(MallUser record);
 
     MallUser selectByPrimaryKey(Long userId);
+
+    List<MallUser> findMallUserList(PageQueryUtil pageUtil);
+
+    int getTotalMallUsers(PageQueryUtil pageUtil);
+
+    int lockUserBatch(@Param("ids") Integer[] ids, @Param("lockStatus") int lockStatus);
 }
